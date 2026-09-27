@@ -1,26 +1,13 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import InstagramPortfolio from './components/InstagramPortfolio';
-import AppointmentBooking from './components/AppointmentBooking';
-import LocationMap from './components/LocationMap';
-import InquirySection from './components/InquirySection';
-import WhatsAppFAB from './components/WhatsAppFAB';
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Congrats3D from './components/Congrats3D';
 
 function App() {
   return (
-    <div className="min-h-screen bg-background-pink font-sans selection:bg-primary selection:text-white">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <InstagramPortfolio />
-        <AppointmentBooking />
-        <LocationMap />
-        <InquirySection />
-      </main>
-      <WhatsAppFAB />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/celebrate" element={<Congrats3D />} />
+    </Routes>
   );
 }
 

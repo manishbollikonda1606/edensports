@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, Phone, Sparkles, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -101,12 +102,19 @@ export default function Navbar() {
             >
               Location
             </button>
-            <button 
-              onClick={() => scrollToSection('inquiry')} 
-              className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'inquiry' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
-            >
-              Inquiry
-            </button>
+                <button 
+                  onClick={() => scrollToSection('inquiry')} 
+                  className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'inquiry' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
+                >
+                  Inquiry
+                </button>
+                
+                <Link 
+                  to="/celebrate"
+                  className="text-sm font-semibold text-text-muted hover:text-primary transition-colors cursor-pointer px-2 py-1 border-b-2 border-transparent hover:border-primary"
+                >
+                  3D Celebration
+                </Link>
             
             <motion.button 
               whileHover={{ scale: 1.04 }}
@@ -181,6 +189,17 @@ export default function Navbar() {
               >
                 Inquiry & Contact Form
               </button>
+
+              <Link 
+                to="/celebrate"
+                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <Globe className="w-5 h-5" />
+                  3D Celebration App
+                </span>
+              </Link>
               
               <div className="pt-3">
                 <button 
