@@ -1,12 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './components/Home';
-import Congrats3D from './components/Congrats3D';
+import Home from './Home';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/celebrate" element={<Congrats3D />} />
+      <Route path="*" element={<Home />} />
     </Routes>
   );
 }

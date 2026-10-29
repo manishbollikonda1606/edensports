@@ -1,25 +1,126 @@
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #76C47A;
-  --color-primary-hover: #5DBB62;
-  --color-secondary: #FF8BA7;
-  --color-secondary-hover: #FF6584;
-  --color-background-pink: #FFF7F9;
-  --color-background-lime: #F2F9F3;
-  --color-text-dark: #1F2D24;
-  --color-text-muted: #526B5D;
-  
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
 @layer base {
+  :root {
+    --bg-obsidian: #070A08;
+    --bg-surface: #0F1612;
+    --bg-surface-elevated: #16221C;
+    --bg-glass: rgba(18, 28, 22, 0.72);
+    --border-chalk: rgba(46, 204, 113, 0.14);
+    --border-chalk-strong: rgba(74, 222, 128, 0.35);
+    --turf-emerald: #10B981;
+    --turf-emerald-bright: #22C55E;
+    --volt-lime: #D4FF00;
+    --pitch-ochre: #EAB308;
+    --text-chalk: #F4F7F5;
+    --text-mist: #8E9F94;
+  }
+
+  * {
+    border-color: var(--border-chalk);
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    background-color: #070A08;
+    color: #F4F7F5;
   }
+
   body {
-    @apply bg-background-pink text-text-dark font-sans antialiased selection:bg-primary selection:text-white overflow-x-hidden;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #070A08;
+    color: #F4F7F5;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .font-mono-athletic {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
+/* Stadium Lighting & Pitch Markings */
+.floodlight-glow-day {
+  background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.18) 0%, rgba(7, 10, 8, 0) 70%);
+}
+
+.floodlight-glow-night {
+  background: radial-gradient(circle at 50% 20%, rgba(212, 255, 0, 0.22) 0%, rgba(16, 185, 129, 0.12) 35%, rgba(7, 10, 8, 0) 75%);
+}
+
+.card-glass {
+  background: rgba(18, 28, 22, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(46, 204, 113, 0.14);
+}
+
+.card-glass-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-glass-hover:hover {
+  border-color: rgba(212, 255, 0, 0.4);
+  box-shadow: 0 0 35px -5px rgba(212, 255, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Matchday Ticket CSS Perforation */
+.ticket-edge-left {
+  position: relative;
+}
+.ticket-edge-left::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #070A08;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  z-index: 10;
+}
+.ticket-edge-right {
+  position: relative;
+}
+.ticket-edge-right::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #070A08;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  z-index: 10;
+}
+
+/* Kinetic Athletic Button Pulse */
+@keyframes voltPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px 2px rgba(212, 255, 0, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 35px 8px rgba(212, 255, 0, 0.6);
+  }
+}
+
+.volt-btn-pulse {
+  animation: voltPulse 3s infinite ease-in-out;
+}
+
+/* Subtle Pitch Grid Pattern */
+.pitch-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(46, 204, 113, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(46, 204, 113, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}

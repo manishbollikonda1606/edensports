@@ -1,219 +1,168 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, Phone, Sparkles, Globe } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Phone, ArrowUpRight, Clock, MapPin, Menu, X, ShieldCheck } from 'lucide-react';
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+export const Navbar: React.FC = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Handle smooth scroll with navbar offset
-  const scrollToSection = (id: string) => {
-    setIsOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const navbarOffset = 85;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navbarOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  // Track active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['services', 'portfolio', 'booking', 'location', 'inquiry'];
-      const scrollPosition = window.scrollY + 120;
-
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
+      setScrolled(window.scrollY > 20);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md border-b border-secondary/15">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
-          
-          {/* Authentic Storefront Logo Image (unnamed-3.jpg) & Branding */}
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-            className="flex items-center gap-3 text-left group cursor-pointer"
-            aria-label="Glam By Suvii Home"
-          >
-            {/* Real Salon Logo Image */}
-            <div className="relative h-12 w-auto overflow-hidden rounded-xl bg-white p-1 border border-secondary/20 shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <img 
-                src="/unnamed-3.jpg" 
-                alt="Glam By Suvii Unisex Salon Logo"
-                className="h-full w-auto object-contain rounded-lg"
-              />
-            </div>
+  const navLinks = [
+    { name: 'The Arena', href: '#arena' },
+    { name: 'Slot Booker', href: '#configurator' },
+    { name: 'Sports & Turf Specs', href: '#specs' },
+    { name: 'Amenities', href: '#amenities' },
+    { name: 'Location & FAQs', href: '#location' },
+  ];
 
-            <div className="flex flex-col">
-              <span className="font-extrabold text-lg sm:text-xl text-text-dark tracking-tight leading-none group-hover:text-primary transition-colors">
-                Glam By Suvii
+  const scrollTo = (href: string) => {
+    setMobileMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-[#070A08]/85 backdrop-blur-md border-b border-[#10B981]/15 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.8)]'
+          : 'bg-transparent py-5'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          {/* Brand Logo & Live Badge */}
+          <div className="flex items-center gap-3">
+            <a href="#" className="flex items-center gap-3 group">
+              {/* Interlocking pitch lines forming an 'E' */}
+              <div className="w-10 h-10 rounded-xl bg-[#0F1612] border border-[#10B981]/30 p-2 flex items-center justify-center transition-transform group-hover:scale-105 group-hover:border-[#D4FF00]">
+                <svg viewBox="0 0 100 100" className="w-full h-full text-[#D4FF00] fill-current">
+                  <path d="M 24 16 L 76 16 L 76 28 L 40 28 L 40 44 L 70 44 L 70 56 L 40 56 L 40 72 L 76 72 L 76 84 L 24 84 Z" />
+                </svg>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-display font-extrabold text-xl tracking-tight text-[#F4F7F5] group-hover:text-[#D4FF00] transition-colors leading-none">
+                  EDEN SPORTS
+                </span>
+                <span className="text-[10px] uppercase tracking-widest text-[#8E9F94] font-mono-athletic mt-1">
+                  BEERAMGUDA • HYD
+                </span>
+              </div>
+            </a>
+
+            {/* Live Pulsing Green Dot Status Badge */}
+            <div className="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#10B981]/10 border border-[#10B981]/25 ml-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary mt-0.5 flex items-center gap-1">
-                Unisex Salon <span className="w-1 h-1 rounded-full bg-primary" /> Tellapur
+              <span className="text-[11px] font-mono-athletic text-[#10B981] font-semibold tracking-wider uppercase">
+                OPEN TODAY • 05:00 – 23:00
               </span>
             </div>
-          </button>
+          </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-6">
-            <button 
-              onClick={() => scrollToSection('services')} 
-              className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'services' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
-            >
-              Services
-            </button>
-            <button 
-              onClick={() => scrollToSection('portfolio')} 
-              className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'portfolio' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
-            >
-              Portfolio
-            </button>
-            <button 
-              onClick={() => scrollToSection('booking')} 
-              className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'booking' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
-            >
-              Book Slot
-            </button>
-            <button 
-              onClick={() => scrollToSection('location')} 
-              className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'location' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
-            >
-              Location
-            </button>
-                <button 
-                  onClick={() => scrollToSection('inquiry')} 
-                  className={`text-sm font-semibold transition-colors cursor-pointer px-2 py-1 ${activeSection === 'inquiry' ? 'text-primary border-b-2 border-primary' : 'text-text-muted hover:text-primary'}`}
-                >
-                  Inquiry
-                </button>
-                
-                <Link 
-                  to="/celebrate"
-                  className="text-sm font-semibold text-text-muted hover:text-primary transition-colors cursor-pointer px-2 py-1 border-b-2 border-transparent hover:border-primary"
-                >
-                  3D Celebration
-                </Link>
-            
-            <motion.button 
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-md shadow-primary/25 flex items-center gap-2 cursor-pointer ml-2"
-              onClick={() => scrollToSection('booking')}
-            >
-              <Sparkles className="w-4 h-4" />
-              Book Appointment
-            </motion.button>
-          </div>
+          <nav className="hidden md:flex items-center gap-1 rounded-full bg-[#0F1612]/90 border border-[#10B981]/15 px-4 py-1.5 backdrop-blur-md">
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => scrollTo(link.href)}
+                className="px-3.5 py-1.5 text-xs lg:text-sm font-medium text-[#8E9F94] hover:text-[#D4FF00] transition-colors cursor-pointer"
+              >
+                {link.name}
+              </button>
+            ))}
+          </nav>
 
-          {/* Mobile Action & Menu Controls */}
-          <div className="flex items-center md:hidden gap-2">
-            <a 
-              href="tel:+919059749977" 
-              className="p-2.5 rounded-full bg-secondary/15 text-secondary hover:bg-secondary/25 transition-colors border border-secondary/20"
-              aria-label="Call Salon"
+          {/* Right Action CTAs */}
+          <div className="hidden sm:flex items-center gap-3">
+            <a
+              href="tel:+919059256936"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-[#0F1612] hover:bg-[#16221C] border border-[#10B981]/20 hover:border-[#10B981]/50 text-xs font-mono-athletic text-[#F4F7F5] transition-all"
             >
-              <Phone className="h-5 w-5" />
+              <Phone className="w-3.5 h-3.5 text-[#10B981]" />
+              <span>+91 90592 56936</span>
             </a>
+
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-text-dark hover:text-primary transition-colors p-2.5 rounded-2xl bg-gray-50 border border-gray-200 cursor-pointer"
-              aria-label="Toggle Navigation Menu"
+              onClick={() => scrollTo('#configurator')}
+              className="group relative inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#D4FF00] text-[#070A08] font-bold text-xs uppercase tracking-wider hover:bg-[#c2ea00] transition-all cursor-pointer volt-btn-pulse"
             >
-              {isOpen ? <X className="h-6 w-6 text-primary" /> : <Menu className="h-6 w-6 text-text-dark" />}
+              <span>Book Turf Slot</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
           </div>
 
+          {/* Mobile Menu Button */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={() => scrollTo('#configurator')}
+              className="px-3 py-1.5 rounded-lg bg-[#D4FF00] text-[#070A08] font-bold text-xs uppercase tracking-wider"
+            >
+              Book
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg bg-[#0F1612] border border-[#10B981]/25 text-[#F4F7F5]"
+              aria-label="Toggle Navigation"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Dropdown Navigation Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white/98 backdrop-blur-lg border-t border-gray-100 shadow-2xl"
-          >
-            <div className="px-4 pt-3 pb-6 space-y-2 text-center">
-              <button 
-                onClick={() => scrollToSection('services')} 
-                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
-              >
-                Services & Pricing
-              </button>
-              <button 
-                onClick={() => scrollToSection('portfolio')} 
-                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
-              >
-                Recent Salon Work
-              </button>
-              <button 
-                onClick={() => scrollToSection('booking')} 
-                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
-              >
-                Book Appointment Slot
-              </button>
-              <button 
-                onClick={() => scrollToSection('location')} 
-                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
-              >
-                Salon Location & Hours
-              </button>
-              <button 
-                onClick={() => scrollToSection('inquiry')} 
-                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
-              >
-                Inquiry & Contact Form
-              </button>
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-[#070A08] border-b border-[#10B981]/20 px-4 pt-3 pb-6 mt-3 space-y-3 animate-in fade-in slide-in-from-top-4">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#10B981]/10 border border-[#10B981]/25 w-fit">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
+            </span>
+            <span className="text-[11px] font-mono-athletic text-[#10B981] font-semibold">
+              OPEN TODAY • 05:00 – 23:00
+            </span>
+          </div>
 
-              <Link 
-                to="/celebrate"
-                className="w-full text-center px-4 py-3.5 text-base font-bold text-text-dark hover:bg-background-lime hover:text-primary rounded-2xl transition-all cursor-pointer"
-                onClick={() => setIsOpen(false)}
+          <div className="flex flex-col space-y-2 pt-2">
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => scrollTo(link.href)}
+                className="text-left px-3 py-2 rounded-lg text-sm font-medium text-[#8E9F94] hover:text-[#D4FF00] hover:bg-[#0F1612]"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <Globe className="w-5 h-5" />
-                  3D Celebration App
-                </span>
-              </Link>
-              
-              <div className="pt-3">
-                <button 
-                  className="w-full bg-primary hover:bg-primary-hover text-white px-6 py-4 rounded-2xl font-extrabold text-base shadow-lg shadow-primary/30 flex items-center justify-center gap-2 cursor-pointer"
-                  onClick={() => scrollToSection('booking')}
-                >
-                  <Sparkles className="w-5 h-5" />
-                  Book Appointment Now
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+                {link.name}
+              </button>
+            ))}
+          </div>
+
+          <div className="pt-2 border-t border-[#10B981]/15 flex flex-col gap-2">
+            <a
+              href="tel:+919059256936"
+              className="flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#0F1612] border border-[#10B981]/25 text-xs font-mono-athletic text-[#F4F7F5]"
+            >
+              <Phone className="w-4 h-4 text-[#10B981]" />
+              <span>Call +91 90592 56936</span>
+            </a>
+            <button
+              onClick={() => scrollTo('#configurator')}
+              className="w-full py-2.5 rounded-lg bg-[#D4FF00] text-[#070A08] font-bold text-xs uppercase tracking-wider"
+            >
+              Interactive Slot Configurator →
+            </button>
+          </div>
+        </div>
+      )}
+    </header>
   );
-}
+};
