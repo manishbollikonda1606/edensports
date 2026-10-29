@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { SlotConfigurator } from './components/SlotConfigurator';
-import { ArenaBento } from './components/ArenaBento';
-import { TurfBlueprint } from './components/TurfBlueprint';
-import { PlayerWall } from './components/PlayerWall';
-import { LocationAndFAQ } from './components/LocationAndFAQ';
+import { AboutSection } from './components/AboutSection';
+import { SportsOfferings } from './components/SportsOfferings';
+import { AmenitiesSection } from './components/AmenitiesSection';
+import { GallerySection } from './components/GallerySection';
+import { ContactLocation } from './components/ContactLocation';
 import { Footer } from './components/Footer';
-import { MobileQuickDock } from './components/MobileQuickDock';
+import { BookingModal } from './components/BookingModal';
 
 export default function Home() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSport, setSelectedSport] = useState('Box Cricket');
+
+  const handleOpenBooking = (sportName: string = 'Box Cricket') => {
+    setSelectedSport(sportName);
+    setModalOpen(true);
+  };
+
   return (
-    <div className="min-h-screen bg-[#070A08] text-[#F4F7F5] selection:bg-[#D4FF00] selection:text-[#070A08] relative">
-      <Navbar />
+    <div className="min-h-screen bg-white text-gray-900 selection:bg-blue-600 selection:text-white">
+      <Navbar onBookClick={() => handleOpenBooking('Box Cricket')} />
       <main>
-        <Hero />
-        <SlotConfigurator />
-        <ArenaBento />
-        <TurfBlueprint />
-        <PlayerWall />
-        <LocationAndFAQ />
+        <Hero onBookClick={() => handleOpenBooking('Box Cricket')} />
+        <AboutSection />
+        <SportsOfferings onBookSport={(sport) => handleOpenBooking(sport)} />
+        <AmenitiesSection />
+        <GallerySection />
+        <ContactLocation />
       </main>
-      <Footer />
-      <MobileQuickDock />
+      <Footer onBookClick={() => handleOpenBooking('Box Cricket')} />
+      <BookingModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        defaultSport={selectedSport}
+      />
     </div>
   );
 }
