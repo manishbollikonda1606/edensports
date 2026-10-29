@@ -2,15 +2,18 @@
   command = "npm run build"
   publish = "dist"
 
-[functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["express"]
+# Security Headers & Content Protection
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; frame-src https://www.google.com https://www.openstreetmap.org; connect-src 'self' https:;"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
-
+# SPA Routing Redirect
 [[redirects]]
   from = "/*"
   to = "/index.html"
