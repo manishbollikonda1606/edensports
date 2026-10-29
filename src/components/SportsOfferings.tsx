@@ -67,11 +67,15 @@ export const SportsOfferings: React.FC<SportsOfferingsProps> = ({ onBookSport })
               className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
-                {/* Real Turf Image */}
+                {/* Real Turf Image with lazy loading and async decoding */}
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={sport.image}
                     alt={sport.title}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={224}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4">

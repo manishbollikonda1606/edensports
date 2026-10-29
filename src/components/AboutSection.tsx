@@ -14,6 +14,10 @@ export const AboutSection: React.FC = () => {
               <img
                 src="/eden-photos/eden-turf-2.jpg"
                 alt="Eden Sports Enclosed Ground"
+                loading="lazy"
+                decoding="async"
+                width={800}
+                height={420}
                 className="w-full h-[420px] object-cover"
               />
               <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl border border-gray-200/80 shadow-lg flex items-center justify-between">

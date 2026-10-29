@@ -49,6 +49,10 @@ export const GallerySection: React.FC = () => {
               <img
                 src={item.url}
                 alt={item.title}
+                loading="lazy"
+                decoding="async"
+                width={500}
+                height={375}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 text-white">

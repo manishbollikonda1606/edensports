@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -7,7 +7,11 @@ import { AmenitiesSection } from './components/AmenitiesSection';
 import { GallerySection } from './components/GallerySection';
 import { ContactLocation } from './components/ContactLocation';
 import { Footer } from './components/Footer';
-import { BookingModal } from './components/BookingModal';
+
+// Code-split modal so it is only loaded on interaction
+const BookingModal = lazy(() =>
+  import('./components/BookingModal').then((m) => ({ default: m.BookingModal }))
+);
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,11 +34,16 @@ export default function Home() {
         <ContactLocation />
       </main>
       <Footer onBookClick={() => handleOpenBooking('Box Cricket')} />
-      <BookingModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        defaultSport={selectedSport}
-      />
+      
+      {modalOpen && (
+        <Suspense fallback={null}>
+          <BookingModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            defaultSport={selectedSport}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

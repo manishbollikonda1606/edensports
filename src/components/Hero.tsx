@@ -8,11 +8,14 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onBookClick }) => {
   return (
     <section id="home" className="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
-      {/* Background Real Arena Photo with Lightened Overlay so Turf is Clearly Visible */}
+      {/* Background Real Arena Photo with fetchpriority high and decoding async */}
       <div className="absolute inset-0 z-0">
         <img
           src="/eden-photos/eden-turf-1.jpg"
           alt="Eden Sports Ground Beeramguda"
+          fetchPriority="high"
+          decoding="async"
+          loading="eager"
           className="w-full h-full object-cover object-center"
         />
         {/* Subtle gradient overlay tuned for maximum photo clarity while preserving text contrast */}
